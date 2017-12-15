@@ -12,6 +12,28 @@ MD.extend({
     var shape = MSRectangleShape.alloc().initWithFrame(NSMakeRect(0, 0, 100, 100));
     return MSShapeGroup.shapeWithPath(shape);
   },
+    addLine: function (x, y, height, color) {
+        var path = NSBezierPath.bezierPath();
+        path.moveToPoint(NSMakePoint(x, y));
+        path.lineToPoint(NSMakePoint(x, y + height));
+
+        var shape = MSShapeGroup.shapeWithBezierPath(path);
+        var border = shape.style().addStylePartOfType(1);
+        border.color = MSColor.colorWithRGBADictionary(color);
+        border.thickness = 1;
+        return shape;
+    },
+    addHorizLine: function (x, y, width, color) {
+        var path = NSBezierPath.bezierPath();
+        path.moveToPoint(NSMakePoint(x, y));
+        path.lineToPoint(NSMakePoint(x + width, y));
+
+        var shape = MSShapeGroup.shapeWithBezierPath(path);
+        var border = shape.style().addStylePartOfType(1);
+        border.color = MSColor.colorWithRGBADictionary(color);
+        border.thickness = 1;
+        return shape;
+    },
   addText: function (container, string) {
     var text = MSTextLayer.new();
     text.setStringValue(string || 'Text');
