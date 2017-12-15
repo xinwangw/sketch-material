@@ -1,6 +1,5 @@
 // table.js
 MD['Table'] = function () {
-  var _generateTable,
     // Functions
     var _generateTable,
         _showTablePanel,
