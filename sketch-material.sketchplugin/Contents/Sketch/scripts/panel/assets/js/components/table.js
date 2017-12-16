@@ -59,9 +59,10 @@
       hasPagination = $('#hasPagination:checked').val() || 'off',
       hasShadow = $('#hasShadow:checked').val() || 'off',
       hasCaption = $('#hasCaption:checked').val() || 'off',
-      hasCheckboxes = $('#hasCheckboxes:checked').val() || 'off';
+      hasCheckboxes = $('#hasCheckboxes:checked').val() || 'off',
+        hasSort = $('#hasSort:checked').val() || 'off';
 
-    return [hasCaption, hasShadow, hasPagination, layout, hasCheckboxes].join('|');
+    return [hasCaption, hasShadow, hasPagination, layout, hasCheckboxes, hasSort].join('|');
   }
 
   _toggleCheckBoxes = function () {
