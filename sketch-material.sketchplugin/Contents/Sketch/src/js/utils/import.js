@@ -112,7 +112,13 @@ MD.extend({
 
   importTableStylesAndSymbols: function () {
     this.importSymbols('icons', ['Forms/checkbox/unchecked/16']);
-    this.importSymbols('tables', ['…table-pagination']);
+    this.importSymbols('tables', ['…table-pagination', '…table-col-line']);
+      var shadowsPath = this.resources + '/tables.sketch';
+      var elevationUrl = NSURL.fileURLWithPath(shadowsPath);
+      var styles = {
+          layerStyles: ['…table-col-line','…table-header-line'],
+      }
+      this.importSharedStyles(elevationUrl, styles);
   },
 
   importButtonStyles: function () {

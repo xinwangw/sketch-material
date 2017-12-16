@@ -62,7 +62,7 @@ MD['Table'] = function () {
         },
 
         lineStyle = MD.sharedLayerStyle("…table-divider", MD.hexToNSColor('000000', 0.12)),
-        colLineStyle = MD.sharedLayerStyle("…table-col-line", MD.hexToNSColor('000000', 0.12)),
+
         headerBgStyle = MD.sharedLayerStyle("…table-header-bg", MD.hexToNSColor('626262', 1)),
         evenRowBgStyle = MD.sharedLayerStyle("…table-even-bg", MD.hexToNSColor('403e3e', 1)),
         oddRowBgStyle = MD.sharedLayerStyle("…table-odd-bg", MD.hexToNSColor('302e2e', 1)),
@@ -150,6 +150,8 @@ MD['Table'] = function () {
 
     _makeCols = function () {
 
+        var colLineStyle = MD.sharedLayerStyle("…table-col-line", MD.hexToNSColor('000000', 0.12));
+        var headerLineStyle = MD.sharedLayerStyle("…table-header-line", MD.hexToNSColor('000000', 0.12));
         if (props[4] == 'off') {
             x = PADDING;
         }
@@ -157,7 +159,6 @@ MD['Table'] = function () {
         for (var i = 0; i < headers.length; i++) {
             var col = MD.addText(),
                 header = MD.addText(),
-                lineRect,
                 colGroup = MD.addGroup(),
                 layoutSize = props[3];
 
@@ -182,22 +183,27 @@ MD['Table'] = function () {
             colRect.setY(CAPTION_HEIGHT.M + ROW_HEIGHT[layoutSize] + (ROW_HEIGHT[layoutSize] - LINE_HEIGHT.CONTENT) / 2 + 1);
             colRect.setWidth(widths[i]);
 
+
+            headerLine = MD.addLine(x - 5, CAPTION_HEIGHT.M, ROW_HEIGHT[layoutSize], MD.hexToNSColor('000000', 0.12));
+            headerLine.setStyle(headerLineStyle);
             line = MD.addLine(x - 5, CAPTION_HEIGHT.M + ROW_HEIGHT[layoutSize], ROW_HEIGHT[layoutSize] * rowsCount, MD.hexToNSColor('000000', 0.12));
             line.setStyle(colLineStyle);
 
             x = gapBetweenCols + x + parseInt(widths[i]);
 
             colGroup.setName('col #' + i)
-            colGroup.addLayers([col, header, line]);
+            colGroup.addLayers([col, header, headerLine, line]);
             colGroup.resizeToFitChildrenWithOption(0);
             columnGroup.addLayers([colGroup]);
         }
     }
 
     _makeLines = function () {
+        var colLineStyle = MD.sharedLayerStyle("…table-col-line", MD.hexToNSColor('000000', 0.12));
+        var headerLineStyle = MD.sharedLayerStyle("…table-header-line", MD.hexToNSColor('000000', 0.12));
         var checkBox = MD.findSymbolByName('Forms/checkbox/unchecked/16');
 
-        for (var k = 1; k < rowsCount + 2; k++) {
+        for (var k = 0; k < rowsCount + 2; k++) {
             var line,
                 layoutSize = props[3],
                 check = checkBox.newSymbolInstance(),
@@ -213,9 +219,13 @@ MD['Table'] = function () {
                 checkBoxGroup.addLayers([check]);
             }
             line = MD.addHorizLine(0, tableHeight, x, MD.hexToNSColor('000000', 0.12));
-            line.setStyle(colLineStyle);
+            if (k < 2) {
+                line.setStyle(headerLineStyle);
+            } else {
+                line.setStyle(colLineStyle);
+            }
             linesGroup.setName('dividers');
-            if (k < rowsCount + 1) {
+            if ((k == 0 && props[0] == 'on') || (k > 0 && k < rowsCount + 1)) {
                 linesGroup.addLayers([line]);
             }
         }
